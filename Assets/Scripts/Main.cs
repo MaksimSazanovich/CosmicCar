@@ -25,6 +25,7 @@ public class Main : MonoBehaviour
     private LevelController levelController;
     private Charge charge;
     private PlayerController playerController;
+    [SerializeField] private ScoreCounter scoreCounter;
 
     private void Start()
     {
@@ -49,7 +50,8 @@ public class Main : MonoBehaviour
 
     public void ReloadScene()
     { 
-    levelController.ReloadScene();
+        levelController.ReloadScene();
+        scoreCounter.SetStartTime();
     }
 
     public void OnPauseButtonDown()

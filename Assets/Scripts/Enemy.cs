@@ -6,14 +6,18 @@ using UnityEngine.UIElements;
 public class Enemy : MonoBehaviour
 {
     public static float speed;
+    private float timeBetwwenSpeedAdd = 5f;
     private float timeToDestroy = 5f;
 
     private Spowner spowner;
-    private BackGround backGround;
+    private BackGroundSpowner backGroundSpowner;
+    private BackGrounMovement backGroundMovement;
+
     private void Start()
     {
         spowner = FindObjectOfType<Spowner>();
-        backGround = FindObjectOfType<BackGround>();
+        backGroundMovement = FindObjectOfType<BackGrounMovement>();
+        backGroundSpowner = FindObjectOfType<BackGroundSpowner>();
         speed = Spowner.enemySpeed;
         
         StartCoroutine(Destroy());
@@ -21,12 +25,27 @@ public class Enemy : MonoBehaviour
     void FixedUpdate()
     {
         transform.position += Vector3.left * speed * Time.fixedDeltaTime;
-        speed += 0.0005f;
         spowner.SetEnemySpeed();
         spowner.SetTimeBetweenSpawns();
-        backGround.SetSpeed();
+        //backGroundSpowner.SetTimeBetweenSpawns();
+        backGroundMovement.SetSpeed();
     }
 
+    private void Update()
+    {
+        timeBetwwenSpeedAdd -= Time.deltaTime * 0.05f;
+        if (timeBetwwenSpeedAdd <= 0)
+        {
+            speed += 0.05f;
+            timeBetwwenSpeedAdd = 5f;
+        }
+
+        if (transform.position.x <= -7)
+        {
+            Destroy(gameObject);
+        }
+
+    }
     private IEnumerator Destroy()
     {
         yield return new WaitForSeconds(timeToDestroy);

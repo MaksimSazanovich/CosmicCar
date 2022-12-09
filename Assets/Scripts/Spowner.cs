@@ -19,14 +19,14 @@ public class Spowner : MonoBehaviour
 
     private void Awake()
     {
-        enemySpeed = 3f;
+        enemySpeed = 4f;
     }
 
     private void Start()
     {
         
     }
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (Time.time > nextSpawnTime)
         {
